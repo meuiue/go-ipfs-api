@@ -15,7 +15,7 @@ import (
 	"strings"
 	"time"
 
-	files "github.com/ipfs/go-ipfs-cmdkit/files"
+	files "github.com/ipfs/go-ipfs-files"
 	homedir "github.com/mitchellh/go-homedir"
 	ma "github.com/multiformats/go-multiaddr"
 	manet "github.com/multiformats/go-multiaddr-net"
@@ -541,7 +541,10 @@ func (s *Shell) PubSubPublish(topic, data string) (err error) {
 		return err
 	}
 	defer resp.Close()
-	return resp.Error
+	if resp.Error != nil {
+		return resp.Error
+	}
+	return nil
 }
 
 type ObjectStats struct {
